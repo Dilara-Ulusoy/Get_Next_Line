@@ -1,10 +1,9 @@
-This is line 1.
-
-This is line 2.
-This is line 3.
-This is line 4.
-This is line 5.
-This is line 6.
-This is line 7.
-This is line 8.
-This is line 9.
+The quick brown fox jumps over the lazy dog.
+She sells seashells by the seashore.
+How much wood would a woodchuck chuck if a woodchuck could chuck wood?
+Peter Piper picked a peck of pickled peppers.
+Sally sells sea shells down by the seashore.
+I scream, you scream, we all scream for ice cream!
+An apple a day keeps the doctor away.
+Life is like a box of chocolates; you never know what you're gonna get.
+All's fair in love and war.

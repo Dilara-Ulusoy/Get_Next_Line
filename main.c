@@ -8,21 +8,6 @@
 
 char *get_next_line(int fd);
 
-/*
-int main()
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *line;
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s\n", line);
-        free(line);
-    }
-    close(fd);
-    return 0;
-}
-*/
-
 int main()
 {
     int    fd;
