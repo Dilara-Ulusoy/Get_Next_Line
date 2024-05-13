@@ -139,3 +139,4 @@ int find_newline_index(char *stash)
         i++;
     return (i);
 }
+
