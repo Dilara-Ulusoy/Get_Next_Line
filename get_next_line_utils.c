@@ -50,30 +50,6 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	unsigned int	i;
-	char			*tab;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		return (malloc(1));
-	if (len >= ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	tab = malloc(sizeof(char) * (len) + 1);
-	if (!tab)
-		return (NULL);
-	while (len > 0)
-	{
-		tab[i++] = s[start++];
-		len--;
-	}
-	tab[i] = '\0';
-	return (tab);
-}
-
 char	*ft_strdup(const char *s1)
 {
 	char	*tab;
@@ -92,18 +68,4 @@ char	*ft_strdup(const char *s1)
 	}
 	tab[i] = '\0';
 	return (tab);
-}
-
-char *ft_strcpy(char *dst, const char *src)
-{
-    int i;
-
-    i = 0;
-    while (src[i])
-    {
-        dst[i] = src[i];
-        i++;
-    }
-    dst[i] = 0;
-    return (dst);
 }
