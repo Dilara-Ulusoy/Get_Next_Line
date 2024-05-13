@@ -9,30 +9,15 @@ char *get_next_line(int fd)
     line = NULL; 
     buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
     if (!buffer)
-    {
-        free(stash);
-        return (stash = 0);
-    }
+        return (free(stash), free(buffer), stash = 0, NULL);
     if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0) 
-    {
-        free(buffer); 
-        free(stash); 
-        stash = NULL;
-        return (NULL);
-    }
-       
+        return (free(stash), free(buffer), stash = 0, NULL);
     stash = get_stash_from_buffer(fd, stash, buffer);
     if (!stash || *stash == 0) // If the first character of stash is NULL or empty string we free the stash and return NULL
-    {
-        free(stash);
-        return (stash = 0);
-    }
+        return (free(stash), stash = 0);
     line = extract_line(stash, line); // We extract the first line from the stash
     if (!line)
-    {
-        free(stash);
-        return (stash = 0); // If line is NULL we return NULL
-    }
+        return (free(stash), stash = 0);
     stash = extract_remaining_stash(stash); // We extract the remaining stash
     if (!stash)
     {
@@ -52,28 +37,17 @@ char *get_stash_from_buffer(int fd, char *stash, char *buffer)
     {
         stash = ft_strdup("");
         if (!stash) // We allocate memory for stash and copy the empty string to it.
-        {
-            free(buffer);
-            return (NULL);
-        }
+            return (free(buffer), NULL);
     }
     while (nbytes > 0)
     {
         nbytes = read(fd, buffer, BUFFER_SIZE);
         if (nbytes == -1)
-        {
-            free(stash);
-            free(buffer);
-            return (NULL);
-        }
+            return (free(stash), free(buffer), NULL);
         buffer[nbytes] = '\0';
         temp = ft_strjoin(stash, buffer);
         if (!temp)
-        {
-            free(stash);
-            free(buffer);
-            return (NULL);
-        }
+            return (free(stash), free(buffer), NULL);
         stash = temp;
         if (ft_strchr(buffer, '\n'))
             break;
