@@ -20,10 +20,8 @@ char    *extract_line(char *stash, char *line);
 char    *extract_remaining_stash(char *stash);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
-char    *ft_strcpy(char *dst, const char *src);
 int     find_newline_index(char *stash);
 
 #endif 

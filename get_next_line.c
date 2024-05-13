@@ -98,10 +98,11 @@ char *extract_remaining_stash(char *stash)
 		remaining_stash[i] = stash[len + i];
 		i++;
 	}
-    free(stash); // Önceki bellek alanını serbest bırak
+    free(stash);
     remaining_stash[i] = 0;
     return remaining_stash;
 }
+
 int find_newline_index(char *stash)
 {
     int i;
@@ -114,3 +115,16 @@ int find_newline_index(char *stash)
     return (i);
 }
 
+ 
+
+
+/*
+When get_next_line is called, it reads characters from the file descriptor fd until it 
+encounters a newline character or reaches the end of the file.
+
+If BUFFER_SIZE is large enough, get_next_line might read more characters than necessary to find a newline character. 
+In this case, it saves the extra characters (after the newline character) in the stash.
+
+When get_next_line is called again, it first checks if there is anything stored in the stash. 
+If there is, it uses the characters stored in stash before reading from fd.
+*/

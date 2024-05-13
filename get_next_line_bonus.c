@@ -10,29 +10,15 @@ char *get_next_line(int fd)
     line = NULL;
     buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
     if(!buffer)
-    {
-        free(stash[fd]);
-        return (stash[fd] = 0);
-    }
-    if (!buffer || fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= MAX_FD)
-    {
-        free(buffer);
-        free(stash[fd]);
-        stash[fd] = NULL;
-        return (NULL);  
-    }
+        return (free(stash[fd]), free(buffer), stash[fd] = 0, NULL);
+    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= MAX_FD)
+        return (free(stash[fd]), free(buffer), stash[fd] = 0, NULL);  
     stash[fd] = get_stash_from_buffer(fd, stash[fd], buffer);
     if (!stash[fd] || *stash[fd] == '\0')
-    {
-        free(stash[fd]);
-        return (stash[fd] = NULL);
-    }
+        return (free(stash[fd]),stash[fd] = 0);
     line = extract_line(stash[fd], line);
     if (!line)
-    {
-        free(stash[fd]);
-        return (stash[fd] = NULL);
-    }
+        return (free(stash[fd]),stash[fd] = 0);
     stash[fd] = extract_remaining_stash(stash[fd]);
     if (!stash[fd])
     {
