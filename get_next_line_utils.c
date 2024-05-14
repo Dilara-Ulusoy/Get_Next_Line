@@ -6,7 +6,7 @@
 /*   By: dakcakoc <dakcakoce@student.hive.fi>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:58:49 by dakcakoc          #+#    #+#             */
-/*   Updated: 2024/05/14 11:00:09 by dakcakoc         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:20:25 by dakcakoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -80,17 +80,15 @@ char	*ft_strdup(const char *s1)
 	return (tab);
 }
 
-void *free_stash_buffer_line(char **stash, char *buffer, char *line)
+void	*free_stash_buffer_line(char **stash, char *buffer, char *line)
 {
-    if (*stash)
+	if (*stash)
 		free(*stash);
 	if (buffer)
 		free(buffer);
 	if (line)
-    	free(line);
-
-    if (*stash != NULL)
-        *stash = NULL;
-    
-    return NULL;
+		free(line);
+	if (*stash != NULL)
+		*stash = NULL;
+	return (NULL);
 }

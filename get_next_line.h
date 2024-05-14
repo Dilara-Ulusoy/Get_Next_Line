@@ -6,7 +6,7 @@
 /*   By: dakcakoc <dakcakoce@student.hive.fi>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:57:14 by dakcakoc          #+#    #+#             */
-/*   Updated: 2024/05/14 10:58:24 by dakcakoc         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:20:59 by dakcakoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 int		find_newline_index(char *stash);
-void *free_stash_buffer_line(char **stash, char *buffer, char *line);
+void	*free_stash_buffer_line(char **stash, char *buffer, char *line);
 
 #endif 

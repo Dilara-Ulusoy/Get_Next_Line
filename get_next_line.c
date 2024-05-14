@@ -6,7 +6,7 @@
 /*   By: dakcakoc <dakcakoce@student.hive.fi>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 10:40:08 by dakcakoc          #+#    #+#             */
-/*   Updated: 2024/05/14 14:09:17 by dakcakoc         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:19:13 by dakcakoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
