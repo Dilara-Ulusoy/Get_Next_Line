@@ -1,59 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dakcakoc <dakcakoce@student.hive.fi>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/14 10:40:08 by dakcakoc          #+#    #+#             */
+/*   Updated: 2024/05/14 14:09:17 by dakcakoc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "get_next_line.h"
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static char *stash;
-    char *line;
-    char *buffer;
+	static char	*stash;
+	char		*line;
+	char		*buffer;
 
-    line = NULL; 
-    buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!buffer)
-        return (free(stash), free(buffer), stash = 0, NULL);
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0) 
-        return (free(stash), free(buffer), stash = 0, NULL);
-    stash = get_stash_from_buffer(fd, stash, buffer);
-    if (!stash || *stash == 0) // If the first character of stash is NULL or empty string we free the stash and return NULL
-        return (free(stash), stash = 0);
-    line = extract_line(stash, line); // We extract the first line from the stash
-    if (!line)
-        return (free(stash), stash = 0);
-    stash = extract_remaining_stash(stash); // We extract the remaining stash
-    if (!stash)
-    {
-        free(line);
-        free(stash);
-        return (stash = 0);
-    }
-    return (line);
+	line = NULL;
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (free_stash_buffer_line(&stash, NULL, NULL));
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free_stash_buffer_line(&stash, buffer, NULL);
+		return (NULL);
+	}
+	stash = get_stash_from_buffer(fd, stash, buffer);
+	if (!stash || *stash == 0)
+		return (free_stash_buffer_line(&stash, NULL, NULL));
+	line = extract_line(stash, line);
+	if (!line)
+		return (free_stash_buffer_line(&stash, NULL, NULL));
+	stash = extract_remaining_stash(stash);
+	if (!stash)
+		return (free_stash_buffer_line(&stash, NULL, line));
+	return (line);
 }
-char *get_stash_from_buffer(int fd, char *stash, char *buffer)
-{
-    int nbytes;
-    char    *temp;
 
-    nbytes = 1;
-    if (!stash) // If stash is NULL
-    {
-        stash = ft_strdup("");
-        if (!stash) // We allocate memory for stash and copy the empty string to it.
-            return (free(buffer), NULL);
-    }
-    while (nbytes > 0)
-    {
-        nbytes = read(fd, buffer, BUFFER_SIZE);
-        if (nbytes == -1)
-            return (free(stash), free(buffer), NULL);
-        buffer[nbytes] = '\0';
-        temp = ft_strjoin(stash, buffer);
-        if (!temp)
-            return (free(stash), free(buffer), NULL);
-        stash = temp;
-        if (ft_strchr(buffer, '\n'))
-            break;
-    }
-    free(buffer);
-    return (stash);
+char	*get_stash_from_buffer(int fd, char *stash, char *buffer)
+{
+	int		nbytes;
+	char	*temp;
+
+	nbytes = 1;
+	if (!stash)
+	{
+		stash = ft_strdup("");
+		if (!stash)
+			return (free_stash_buffer_line(&stash, buffer, NULL));
+	}
+	while (nbytes > 0)
+	{
+		nbytes = read(fd, buffer, BUFFER_SIZE);
+		if (nbytes == -1)
+			return (free_stash_buffer_line(&stash, buffer, NULL));
+		buffer[nbytes] = '\0';
+		temp = ft_strjoin(stash, buffer);
+		if (!temp)
+			return (free_stash_buffer_line(&stash, buffer, NULL));
+		stash = temp;
+		if (ft_strchr(buffer, '\n'))
+			break ;
+	}
+	free(buffer);
+	return (stash);
 }
 
 char	*extract_line(char *stash, char *line)
@@ -68,7 +79,7 @@ char	*extract_line(char *stash, char *line)
 	line = malloc((len + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
-    while (i < len)
+	while (i < len)
 	{
 		line[i] = stash[i];
 		i++;
@@ -77,54 +88,41 @@ char	*extract_line(char *stash, char *line)
 	return (line);
 }
 
-char *extract_remaining_stash(char *stash)
+char	*extract_remaining_stash(char *stash)
 {
-    char *remaining_stash;
-    int i;
-    int len;
-    
-    i = 0;
-    if (stash == NULL)
-        return NULL;
-    len = find_newline_index(stash);
-    remaining_stash = (char *)malloc((ft_strlen(stash) - len + 1) * sizeof(char));
-    if (!remaining_stash)
-    {
-        free(stash);
-        return (stash = 0);
-    }
-    while (stash[len + i] != '\0')
+	char	*remaining_stash;
+	int		i;
+	int		len;
+
+	i = 0;
+	if (stash == NULL)
+		return (NULL);
+	len = find_newline_index(stash);
+	remaining_stash = (char *)malloc((ft_strlen(stash) - len + 1)
+			* sizeof(char));
+	if (!remaining_stash)
+	{
+		free(stash);
+		return (stash = 0);
+	}
+	while (stash[len + i] != '\0')
 	{
 		remaining_stash[i] = stash[len + i];
 		i++;
 	}
-    free(stash);
-    remaining_stash[i] = 0;
-    return remaining_stash;
+	free(stash);
+	remaining_stash[i] = 0;
+	return (remaining_stash);
 }
 
-int find_newline_index(char *stash)
+int	find_newline_index(char *stash)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (stash[i] != '\n' && stash[i] != '\0')
-        i++;
-    if (stash[i] == '\n')
-        i++;
-    return (i);
+	i = 0;
+	while (stash[i] != '\n' && stash[i] != '\0')
+		i++;
+	if (stash[i] == '\n')
+		i++;
+	return (i);
 }
-
- 
-
-
-/*
-When get_next_line is called, it reads characters from the file descriptor fd until it 
-encounters a newline character or reaches the end of the file.
-
-If BUFFER_SIZE is large enough, get_next_line might read more characters than necessary to find a newline character. 
-In this case, it saves the extra characters (after the newline character) in the stash.
-
-When get_next_line is called again, it first checks if there is anything stored in the stash. 
-If there is, it uses the characters stored in stash before reading from fd.
-*/

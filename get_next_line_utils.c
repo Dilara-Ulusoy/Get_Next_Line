@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dakcakoc <dakcakoce@student.hive.fi>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/14 10:58:49 by dakcakoc          #+#    #+#             */
+/*   Updated: 2024/05/14 11:00:09 by dakcakoc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
@@ -13,7 +23,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2) 
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -30,7 +40,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[i])
 		tab[j++] = s2[i++];
 	tab[j] = '\0';
-	free((void *)s1); // Free memory allocated for s1
+	free((void *)s1);
 	return (tab);
 }
 
@@ -49,7 +59,6 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *) &s[i]);
 	return (NULL);
 }
-
 
 char	*ft_strdup(const char *s1)
 {
@@ -71,4 +80,17 @@ char	*ft_strdup(const char *s1)
 	return (tab);
 }
 
+void *free_stash_buffer_line(char **stash, char *buffer, char *line)
+{
+    if (*stash)
+		free(*stash);
+	if (buffer)
+		free(buffer);
+	if (line)
+    	free(line);
 
+    if (*stash != NULL)
+        *stash = NULL;
+    
+    return NULL;
+}
