@@ -19,10 +19,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stddef.h>
 # include <stdint.h>
 # include <string.h>
-# include <fcntl.h> 
 
 char	*get_next_line(int fd);
 char	*get_stash_from_buffer(int fd, char *stash, char *buffer);

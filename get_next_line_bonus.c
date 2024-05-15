@@ -13,7 +13,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char		*stash[MAX_FD];
+	static char		*stash[OPEN_MAX];
 	char			*line;
 	char			*buffer;
 
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 	{
 		return (free_stash_buffer_line(&stash[fd], buffer, NULL));
 	}
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= MAX_FD)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd >= OPEN_MAX)
 	{
 		return (free_stash_buffer_line(&stash[fd], buffer, NULL));
 	}
